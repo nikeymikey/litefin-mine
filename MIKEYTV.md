@@ -22,6 +22,12 @@ In Homebrew Channel, open Settings, choose **Add repository**, and enter the URL
 
 To publish an update, raise the version in `package.json` and `appinfo.json`, then push to the `mikeytv` branch. Homebrew Channel compares versions, so it won't offer a build with the same version as the one installed.
 
+## Install on Fire TV or Google TV
+
+Enter this URL in the Downloader app:
+
+`https://raw.githubusercontent.com/nikeymikey/litefin-mine/homebrew/MikeyTV.apk`
+
 ## Install the server plugin
 
 1. Create the folder `plugins/MikeyTV Messaging_1.0.0.0` in Jellyfin's data folder.

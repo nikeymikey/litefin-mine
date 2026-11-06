@@ -44,18 +44,6 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: packages/*.ipk
-      # raw.githubusercontent.com allows the cross-origin request the channel makes.
-      - name: Publish Homebrew repositories
-        if: github.ref == 'refs/heads/mikeytv'
-        run: |
-          node scripts/generate-homebrew-repo.cjs packages homebrew-out
-          cd homebrew-out
-          git init -q -b homebrew
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -q -m "Publish Homebrew repositories for $GITHUB_SHA"
-          git push -f "https://x-access-token:${{ github.token }}@github.com/$GITHUB_REPOSITORY.git" homebrew
 
   android:
     name: Android universal APK
@@ -123,6 +111,34 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: MikeyTV-*-Android-*.apk
+
+  # One job after both builds, so publishing the webOS files cannot overwrite the APK.
+  publish:
+    name: Publish public downloads
+    needs: [webos, android]
+    if: github.ref == 'refs/heads/mikeytv'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: mikeytv-webos
+          path: packages
+      - uses: actions/download-artifact@v4
+        with:
+          name: mikeytv-android
+          path: apk
+      # raw.githubusercontent.com allows the cross-origin request Homebrew Channel makes.
+      - run: |
+          node scripts/generate-homebrew-repo.cjs packages homebrew-out
+          cp apk/*.apk homebrew-out/MikeyTV.apk
+          cd homebrew-out
+          git init -q -b homebrew
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -q -m "Publish downloads for $GITHUB_SHA"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/$GITHUB_REPOSITORY.git" homebrew
 
   plugin:
     name: Jellyfin messaging plugin
