@@ -15,7 +15,7 @@ const log = logger.create('VersionChecker');
 
 class VersionChecker {
     constructor() {
-        this.apiEndpoint = 'https://api.github.com/repos/nikeymikey/MikeyTV/releases/latest';
+        this.apiEndpoint = 'https://api.github.com/repos/nikeymikey/litefin-mine/releases/latest';
     }
 
     /**
