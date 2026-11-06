@@ -20,7 +20,7 @@ In Homebrew Channel, open Settings, choose **Add repository**, and enter the URL
 | webOS 22 or later | `https://raw.githubusercontent.com/nikeymikey/litefin-mine/homebrew/modern.json` |
 | webOS 4.x to 6.x | `https://raw.githubusercontent.com/nikeymikey/litefin-mine/homebrew/legacy.json` |
 
-To publish an update, raise the version in `package.json` and `appinfo.json`, then push a tag such as `v2.0.201`. Homebrew Channel compares versions, so it won't offer a build with the same version as the one installed.
+To publish an update, raise the version in `package.json` and `appinfo.json`, then push to the `mikeytv` branch. Homebrew Channel compares versions, so it won't offer a build with the same version as the one installed.
 
 ## Install the server plugin
 

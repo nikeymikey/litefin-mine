@@ -6,7 +6,10 @@
  * repository URL, so one repository cannot list two builds with the same ID.
  * Each TV adds the URL that matches its webOS version.
  *
- * Usage: generate-homebrew-repo.cjs <ipk folder> <output folder> <release tag>
+ * The .ipk files are copied next to the index files, so the branch that holds
+ * them needs no login to download from.
+ *
+ * Usage: generate-homebrew-repo.cjs <ipk folder> <output folder>
  */
 const crypto = require('crypto');
 const fs = require('fs');
@@ -16,9 +19,9 @@ const REPO = 'nikeymikey/litefin-mine';
 const APP_ID = 'tv.mikeytv.app';
 const ICON = `https://raw.githubusercontent.com/${REPO}/mikeytv/assets/icon-130.png`;
 
-const [ipkDir, outDir, tag] = process.argv.slice(2);
-if (!ipkDir || !outDir || !tag) {
-    console.error('Usage: generate-homebrew-repo.cjs <ipk folder> <output folder> <release tag>');
+const [ipkDir, outDir] = process.argv.slice(2);
+if (!ipkDir || !outDir) {
+    console.error('Usage: generate-homebrew-repo.cjs <ipk folder> <output folder>');
     process.exit(1);
 }
 
@@ -28,6 +31,7 @@ fs.mkdirSync(outDir, { recursive: true });
 for (const tier of ['Modern', 'Legacy']) {
     const file = `MikeyTV-${version}-webOS-${tier}.ipk`;
     const ipk = fs.readFileSync(path.join(ipkDir, file));
+    fs.copyFileSync(path.join(ipkDir, file), path.join(outDir, file));
     const description = `MikeyTV ${tier} build for LG TVs. A Jellyfin client based on Litefin.`;
     const repository = {
         paging: { page: 1, maxPage: 1, itemsPerPage: 1, itemsTotal: 1 },
@@ -47,7 +51,7 @@ for (const tier of ['Modern', 'Legacy']) {
                     iconUri: ICON,
                     sourceUrl: `https://github.com/${REPO}`,
                     rootRequired: false,
-                    ipkUrl: `https://github.com/${REPO}/releases/download/${tag}/${file}`,
+                    ipkUrl: `https://raw.githubusercontent.com/${REPO}/homebrew/${file}`,
                     ipkHash: { sha256: crypto.createHash('sha256').update(ipk).digest('hex') }
                 }
             }
