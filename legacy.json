@@ -1,0 +1,30 @@
+{
+  "paging": {
+    "page": 1,
+    "maxPage": 1,
+    "itemsPerPage": 1,
+    "itemsTotal": 1
+  },
+  "packages": [
+    {
+      "id": "tv.mikeytv.app",
+      "title": "MikeyTV",
+      "shortDescription": "MikeyTV Legacy build for LG TVs. A Jellyfin client based on Litefin.",
+      "iconUri": "https://raw.githubusercontent.com/nikeymikey/litefin-mine/mikeytv/assets/icon-130.png",
+      "manifest": {
+        "id": "tv.mikeytv.app",
+        "version": "2.0.200",
+        "type": "web",
+        "title": "MikeyTV",
+        "appDescription": "MikeyTV Legacy build for LG TVs. A Jellyfin client based on Litefin.",
+        "iconUri": "https://raw.githubusercontent.com/nikeymikey/litefin-mine/mikeytv/assets/icon-130.png",
+        "sourceUrl": "https://github.com/nikeymikey/litefin-mine",
+        "rootRequired": false,
+        "ipkUrl": "https://raw.githubusercontent.com/nikeymikey/litefin-mine/homebrew/MikeyTV-2.0.200-webOS-Legacy.ipk",
+        "ipkHash": {
+          "sha256": "1ea1352cf1286a818aa74c3c3984b8d9cbee70d60f97b9a613b22cc9e3737c5d"
+        }
+      }
+    }
+  ]
+}
