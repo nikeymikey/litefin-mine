@@ -30,7 +30,6 @@
             android:label="@string/main_activity_title"
             android:name=".MainActivity"
             android:banner="@drawable/banner"
-            android:icon="@drawable/banner"
             android:hardwareAccelerated="true"
             android:exported="true">
             <intent-filter>
