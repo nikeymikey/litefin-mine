@@ -28,6 +28,10 @@ Enter this URL in the Downloader app:
 
 `https://raw.githubusercontent.com/nikeymikey/litefin-mine/homebrew/MikeyTV.apk`
 
+For a device low on storage, use the smaller ARM-only build:
+
+`https://raw.githubusercontent.com/nikeymikey/litefin-mine/homebrew/MikeyTV-arm.apk`
+
 ## Install the server plugin
 
 1. Create the folder `plugins/MikeyTV Messaging_1.0.0.0` in Jellyfin's data folder.

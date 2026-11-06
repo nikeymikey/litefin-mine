@@ -103,10 +103,25 @@ jobs:
             echo "keyAlias=$KEY_ALIAS"
           } > keystore.properties
       - run: npm run package:android-universal
+      # Smaller APK for low-storage devices. No TV in use here needs the x86 code.
+      - name: Make ARM-only APK
+        run: |
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -n 1)
+          cp MikeyTV-*-Android-*.apk arm-unsigned.apk
+          zip -q -d arm-unsigned.apk 'lib/x86/*' 'lib/x86_64/*' 'META-INF/*.SF' 'META-INF/*.RSA' 'META-INF/*.MF' || test $? -eq 12
+          "$BT/zipalign" -f -p 4 arm-unsigned.apk MikeyTV-arm.apk
+          prop() { grep "^$1=" src-tauri/gen/android/keystore.properties | cut -d= -f2-; }
+          STORE_PASS=$(prop storePassword) KEY_PASS=$(prop keyPassword) "$BT/apksigner" sign \
+            --ks src-tauri/gen/android/release.jks --ks-key-alias "$(prop keyAlias)" \
+            --ks-pass env:STORE_PASS --key-pass env:KEY_PASS MikeyTV-arm.apk
+          "$BT/apksigner" verify MikeyTV-arm.apk
+          rm -f arm-unsigned.apk
       - uses: actions/upload-artifact@v4
         with:
           name: mikeytv-android
-          path: MikeyTV-*-Android-*.apk
+          path: |
+            MikeyTV-*-Android-*.apk
+            MikeyTV-arm.apk
       - uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
@@ -131,7 +146,8 @@ jobs:
       # raw.githubusercontent.com allows the cross-origin request Homebrew Channel makes.
       - run: |
           node scripts/generate-homebrew-repo.cjs packages homebrew-out
-          cp apk/*.apk homebrew-out/MikeyTV.apk
+          cp apk/MikeyTV-*-Android-*.apk homebrew-out/MikeyTV.apk
+          cp apk/MikeyTV-arm.apk homebrew-out/MikeyTV-arm.apk
           cd homebrew-out
           git init -q -b homebrew
           git config user.name "github-actions[bot]"
