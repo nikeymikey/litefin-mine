@@ -1,0 +1,159 @@
+/*
+ * Admin message panel and toast hint.
+ * Written for Chromium 53 (webOS TV 4.x): no inset or flex gap, and solid
+ * backgrounds instead of backdrop-filter.
+ */
+.message-panel {
+    position: fixed;
+    top: 40px;
+    right: 40px;
+    bottom: 40px;
+    width: 460px;
+    max-width: calc(100vw - 32px);
+    /* Above the player and OSD, below the toast layer */
+    z-index: 2147483000;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 28px;
+    background: #120a2e;
+    background: rgba(18, 10, 46, 0.97);
+    border: 2px solid #8a3ffc;
+    border-radius: 18px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+}
+
+.message-panel-title {
+    margin: 0 0 16px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #19d3ff;
+}
+
+.message-panel-list {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.message-panel-item {
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(138, 63, 252, 0.4);
+    opacity: 0.65;
+}
+
+.message-panel-item.is-newest {
+    opacity: 1;
+}
+
+.message-panel-header {
+    margin-bottom: 4px;
+    font-size: 0.95rem;
+    color: #ff7ac6;
+}
+
+.message-panel-text {
+    font-size: 1.25rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.message-panel-reply {
+    margin-top: 6px;
+    font-size: 1rem;
+    color: #19d3ff;
+}
+
+.message-panel-status {
+    min-height: 1.4em;
+    margin: 8px 0;
+    font-size: 1rem;
+    color: #ffc526;
+}
+
+.message-panel-actions {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+}
+
+.message-panel-btn,
+.message-panel-input {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px 16px;
+    font: inherit;
+    font-size: 1.1rem;
+    text-align: left;
+    color: #ffffff;
+    background: rgba(138, 63, 252, 0.22);
+    border: 2px solid transparent;
+    border-radius: 10px;
+    outline: none;
+}
+
+.message-panel-input::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.message-panel-btn.is-focused,
+.message-panel-input.is-focused,
+.message-panel-btn:hover {
+    background: #ff2fa8;
+    border-color: #ffffff;
+}
+
+.message-panel-input.is-focused::-webkit-input-placeholder {
+    color: #ffffff;
+}
+
+.message-toast {
+    -webkit-flex-direction: column !important;
+    flex-direction: column !important;
+    -webkit-align-items: flex-start !important;
+    align-items: flex-start !important;
+    cursor: pointer;
+}
+
+.message-toast-hint {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin-top: 6px;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #19d3ff;
+}
+
+/* Sidebar and player message buttons */
+/* Sidebar layout code resets inline display, so the class has to win. */
+[data-message-indicator].hidden {
+    display: none !important;
+}
+
+.message-indicator-wrap {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
+}
+
+.message-indicator-dot {
+    display: none;
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ff2fa8;
+}
+
+.has-unread-messages .message-indicator-dot {
+    display: block;
+}

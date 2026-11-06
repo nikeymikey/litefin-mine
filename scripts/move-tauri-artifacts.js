@@ -110,21 +110,21 @@ function formatAndroidArtifactName(fileName, version) {
 
         // Handle Android App Bundle (.aab) packaging
         if (ext.toLowerCase() === 'aab') {
-            return `Litefin-${version}-Android-bundle${debugSuffix}.aab`;
+            return `MikeyTV-${version}-Android-bundle${debugSuffix}.aab`;
         }
 
         // Handle ABI-split or universal Android Application Packages (.apk)
         const targetAbi = abiOrVariant || 'universal';
-        return `Litefin-${version}-Android-${targetAbi}${debugSuffix}.apk`;
+        return `MikeyTV-${version}-Android-${targetAbi}${debugSuffix}.apk`;
     }
 
     // Preserve any artifacts that already feature Litefin in their name
-    if (fileName.startsWith('Litefin')) {
+    if (fileName.startsWith('MikeyTV')) {
         return fileName;
     }
 
     // Fallback prefixing for non-standard Gradle output names
-    return `Litefin-${version}-Android-${fileName}`;
+    return `MikeyTV-${version}-Android-${fileName}`;
 }
 
 /**
@@ -197,7 +197,7 @@ export function cleanObsoleteArtifacts(currentVersion = getProjectVersion()) {
         if (!artifactExts.includes(ext)) continue;
 
         // Extract version from file names like Litefin-1.9.40-Android-arm.apk or Litefin_1.9.40_x64.msi
-        const versionMatch = entry.name.match(/Litefin[._-](?:Web\.Plugin_)?(\d+\.\d+\.\d+)/i);
+        const versionMatch = entry.name.match(/(?:Litefin|MikeyTV)[._-](?:Web\.Plugin_)?(\d+\.\d+\.\d+)/i);
         if (versionMatch && versionMatch[1] !== currentVersion) {
             const stalePath = path.join(rootDir, entry.name);
             try {

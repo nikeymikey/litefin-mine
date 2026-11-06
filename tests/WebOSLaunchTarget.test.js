@@ -139,7 +139,7 @@ test('parseLaunchParams accepts movie/tv/series, supports nested params wrapper,
         JSON.parse(
             JSON.stringify(
                 parseLaunchParams({
-                    id: 'org.litefin.app',
+                    id: 'tv.mikeytv.app',
                     params: { tmdbId: 603, mediaType: 'movie', title: 'The Matrix' }
                 })
             )
@@ -159,7 +159,7 @@ test('parseLaunchParams accepts movie/tv/series, supports nested params wrapper,
 
 test('cold start: a launch with a nested params wrapper opens the title', async () => {
     const t = setup({
-        launchParams: '{"id":"org.litefin.app","params":{"tmdbId":603,"mediaType":"movie"}}',
+        launchParams: '{"id":"tv.mikeytv.app","params":{"tmdbId":603,"mediaType":"movie"}}',
         library: [MATRIX]
     });
     await t.manager.init();

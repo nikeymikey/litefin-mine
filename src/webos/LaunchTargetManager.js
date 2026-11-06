@@ -5,7 +5,7 @@
  * Opens a title when another app launches Litefin on LG webOS with params:
  *
  *   luna://com.webos.applicationManager/launch
- *   { id: 'org.litefin.app', params: { tmdbId: 603, mediaType: 'movie', title?: 'The Matrix' } }
+ *   { id: 'tv.mikeytv.app', params: { tmdbId: 603, mediaType: 'movie', title?: 'The Matrix' } }
  *
  * mediaType is 'movie' or 'tv'. The title opens on the Jellyfin details page of
  * the library item with that TMDB provider id, otherwise on the Seerr details

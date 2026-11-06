@@ -45,11 +45,12 @@ const THEME_MODES = {
     PAPER: 'paper',
     NOCTURNE: 'nocturne',
     ABYSS: 'abyss',
-    CYBERPUNK: 'cyberpunk'
+    CYBERPUNK: 'cyberpunk',
+    MIKEYTV: 'mikeytv'
 };
 
-// Default Theme Color (Litefin Purple Blue)
-const DEFAULT_THEME_COLOR = '#6b6ede';
+// Default Theme Color (MikeyTV pink)
+const DEFAULT_THEME_COLOR = '#ff2fa8';
 
 /*
  * Unique default accent color per artistic theme mode.
@@ -63,7 +64,8 @@ const DEFAULT_MODE_COLORS = {
     [THEME_MODES.PAPER]: '#8a5a33', // sepia ink — old print
     [THEME_MODES.NOCTURNE]: '#d8b25c', // projector tungsten — booth keylight
     [THEME_MODES.ABYSS]: '#35d0cc', // bioluminescent teal — deep-sea lure
-    [THEME_MODES.CYBERPUNK]: '#ff2d78' // neon hot magenta — night-city sign
+    [THEME_MODES.CYBERPUNK]: '#ff2d78', // neon hot magenta — night-city sign
+    [THEME_MODES.MIKEYTV]: '#ff2fa8' // logo pink
 };
 
 // ============================================================================
@@ -97,7 +99,8 @@ const THEME_STYLE_IMPORTS = {
     [THEME_MODES.PAPER]: () => import(/* webpackChunkName: "theme-paper" */ '../themes/paper.css'),
     [THEME_MODES.NOCTURNE]: () => import(/* webpackChunkName: "theme-nocturne" */ '../themes/nocturne.css'),
     [THEME_MODES.ABYSS]: () => import(/* webpackChunkName: "theme-abyss" */ '../themes/abyss.css'),
-    [THEME_MODES.CYBERPUNK]: () => import(/* webpackChunkName: "theme-cyberpunk" */ '../themes/cyberpunk.css')
+    [THEME_MODES.CYBERPUNK]: () => import(/* webpackChunkName: "theme-cyberpunk" */ '../themes/cyberpunk.css'),
+    [THEME_MODES.MIKEYTV]: () => import(/* webpackChunkName: "theme-mikeytv" */ '../themes/mikeytv.css')
 };
 
 class LayoutManager {
@@ -332,8 +335,8 @@ class LayoutManager {
 
         // Load saved theme mode
         const savedThemeMode = storage.getItem('litefin:themeMode');
-        // Default to Black (OLED) theme mode — zero compositing overhead, best for performance.
-        let initialMode = THEME_MODES.BLACK;
+        // Default to the MikeyTV theme on first run.
+        let initialMode = THEME_MODES.MIKEYTV;
 
         if (savedThemeMode && Object.values(THEME_MODES).includes(savedThemeMode)) {
             initialMode = savedThemeMode;
@@ -1175,6 +1178,10 @@ class LayoutManager {
                 textPrimary = '#f2f4ff';
                 textSecondary = 'rgba(228, 222, 245, 0.76)';
                 textTertiary = 'rgba(206, 202, 228, 0.52)';
+            } else if (this._themeMode === THEME_MODES.MIKEYTV) {
+                textPrimary = '#ffffff';
+                textSecondary = 'rgba(232, 226, 255, 0.78)';
+                textTertiary = 'rgba(214, 206, 245, 0.55)';
             }
 
             dynamicCss += `
@@ -1349,6 +1356,17 @@ class LayoutManager {
             --jf-card-bg-hover: rgba(150, 120, 255, 0.16);
             --jf-divider: rgba(150, 120, 255, 0.13);
             --jf-navbar-bg: rgba(7, 5, 14, 0.86);`;
+        } else if (this._themeMode === THEME_MODES.MIKEYTV) {
+            dynamicCss += `
+            --jf-background: #120a2e;
+            --jf-background-rgb: 18, 10, 46;
+            --jf-background-alt: #1a0f42;
+            --sidebar-bg: transparent;
+            --jf-surface: rgba(138, 63, 252, 0.06);
+            --jf-card-bg: rgba(138, 63, 252, 0.10);
+            --jf-card-bg-hover: rgba(255, 47, 168, 0.18);
+            --jf-divider: rgba(138, 63, 252, 0.20);
+            --jf-navbar-bg: rgba(18, 10, 46, 0.88);`;
         } else if (this._themeMode === THEME_MODES.BLACK) {
             /*
              * True Pitch Black canvas for OLED displays.
@@ -1445,6 +1463,8 @@ class LayoutManager {
                 resolvedBg = '#06111c';
             } else if (this._themeMode === THEME_MODES.CYBERPUNK) {
                 resolvedBg = '#0a0713';
+            } else if (this._themeMode === THEME_MODES.MIKEYTV) {
+                resolvedBg = '#120a2e';
             } else if (this._themeMode === THEME_MODES.BLACK) {
                 resolvedBg = '#000000';
             } else if (this._themeMode === THEME_MODES.CLASSIC_LIGHT) {

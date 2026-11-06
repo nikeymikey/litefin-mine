@@ -1,4 +1,4 @@
-package org.litefin.app
+package tv.mikeytv.app
 
 import android.app.Application
 import android.util.Log

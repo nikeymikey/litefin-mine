@@ -560,7 +560,7 @@ class SettingsPage extends Page {
         const item = this.$('#signature-accent-item');
         if (item) {
             const currentMode = layoutManager.getThemeMode();
-            const isSupported = ['ember', 'sunset', 'frost', 'paper', 'nocturne', 'abyss', 'cyberpunk'].includes(
+            const isSupported = ['ember', 'sunset', 'frost', 'paper', 'nocturne', 'abyss', 'cyberpunk', 'mikeytv'].includes(
                 currentMode
             );
             item.classList.toggle('hidden', !isSupported);

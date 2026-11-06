@@ -30,7 +30,7 @@ class ExitDialog {
                     <h2>${i18n.t('ConfirmAppExitTitle') || 'Exit Application?'}</h2>
                 </div>
                 <div class="modal-content" style="padding: 24px 24px; color: var(--text-color); font-size: 1.1rem; text-align: center;">
-                    ${i18n.t('ConfirmAppExitMessage') || 'Are you sure you want to exit Litefin?'}
+                    ${i18n.t('ConfirmAppExitMessage') || 'Are you sure you want to exit MikeyTV?'}
                 </div>
                 <div class="modal-actions" id="exit-dialog-actions" style="margin-top: 0; justify-content: center; gap: 16px;">
                     <button class="modal-action-btn" id="exit-dialog-no" tabindex="0">

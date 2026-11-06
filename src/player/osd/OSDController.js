@@ -1,3 +1,5 @@
+import { eventBus } from '../../core/EventBus.js';
+import { MESSAGE_ICON, syncMessageIndicators } from '../../core/MessageCenter.js';
 import Component from '../../core/Component.js';
 import { logger } from '../../utils/Logger.js';
 import { PlayerSettings } from '../../utils/PlayerSettings.js';
@@ -593,6 +595,10 @@ export default class OSDController extends Component {
                             <button class="osd-btn" data-action="queue" id="osdQueueBtn" tabindex="0" aria-label="Queue">${osdIcons.queue}</button>
                             <!-- Lyrics modal button -->
                             <button class="osd-btn osd-btn-disabled hidden" data-action="lyrics" id="osdLyricsBtn" tabindex="-1" aria-label="Lyrics">${osdIcons.lyrics}</button>
+                            <!-- Admin messages: only present in the D-pad path when there are messages -->
+                            <button class="osd-btn hidden" data-action="messages" data-message-indicator id="osdMessagesBtn" tabindex="-1" style="display: none;" aria-label="Messages">
+                                <div class="message-indicator-wrap">${MESSAGE_ICON}<span class="message-indicator-dot"></span></div>
+                            </button>
                             <!-- SyncPlay group management — only the icon; menu opens on click -->
                             <button class="osd-btn" id="osdSyncPlayBtn" data-action="syncplay" tabindex="0" aria-label="SyncPlay">
                                 <div class="osd-syncplay-icon-wrap">
@@ -678,6 +684,7 @@ export default class OSDController extends Component {
         this._osdEndsAtEl = this._osdEl.querySelector('#osdEndsAt');
         this._osdClockEl = this._osdEl.querySelector('#osdClock');
         this._osdPlayPauseBtnEl = this._osdEl.querySelector('#osdPlayPauseBtn');
+        syncMessageIndicators();
 
         /* Cache stealth HUD and hold gesture elements */
         this._osdStealthHudEl = this._osdEl.querySelector('#osdStealthHud');
@@ -3817,6 +3824,10 @@ export default class OSDController extends Component {
                     this.toggleChaptersModal(true);
                 }
                 break;
+            case 'messages':
+                eventBus.emit('messages:open');
+                break;
+
             case 'queue':
                 /*
                  * ============================================================================

@@ -19,8 +19,8 @@
 # Preserve Tauri runtime entrypoints and custom Android plugin handlers.
 -keep class app.tauri.** { *; }
 -keep interface app.tauri.** { *; }
--keep class org.litefin.app.** { *; }
--keep interface org.litefin.app.** { *; }
+-keep class tv.mikeytv.app.** { *; }
+-keep interface tv.mikeytv.app.** { *; }
 
 # Preserve JavaScript interface methods registered for WebView
 -keepclassmembers class * {
@@ -45,4 +45,4 @@
 # OkHttp & Kotlin Coroutines
 # -----------------------------------------------------------------------------
 -dontwarn okhttp3.**
--dontwarn okio.**
+-dontwarn okio.**

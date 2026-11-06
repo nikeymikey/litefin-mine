@@ -1,0 +1,153 @@
+/**
+ * ============================================================================
+ * MikeyTV Theme
+ * ============================================================================
+ * Deep navy canvas lit by hot pink and cyan blooms, taken from the MikeyTV
+ * logo. Written for Chromium 53 (webOS TV 4.x): no inset, flex gap or
+ * color-mix, and no dependency on backdrop-filter.
+ * ============================================================================
+ */
+
+[data-theme-mode="mikeytv"] {
+    /* Sidebar alias; LayoutManager maps it to transparent so the background shows */
+    --sidebar-bg: var(--jf-background-alt);
+
+    --jf-overlay-bg: rgba(18, 10, 46, 0.94);
+
+    --jf-text-primary: #ffffff;
+    --jf-text-secondary: rgba(232, 226, 255, 0.78);
+    --jf-text-tertiary: rgba(214, 206, 245, 0.55);
+    --jf-text-disabled: rgba(214, 206, 245, 0.28);
+
+    --jf-success: #38e8b0;
+    --jf-warning: #ffc526;
+    --jf-error: #ff4d8f;
+    --jf-info: #19d3ff;
+
+    /* Translucent violet surfaces */
+    --jf-input-bg: rgba(138, 63, 252, 0.07);
+    --jf-input-border: rgba(138, 63, 252, 0.18);
+    --jf-button-bg: rgba(138, 63, 252, 0.1);
+    --jf-button-hover: rgba(138, 63, 252, 0.2);
+    --jf-switch-bg: rgba(138, 63, 252, 0.16);
+    --jf-switch-handle: var(--jf-accent-content-color, #120a2e);
+
+    /* Deep navy shadows */
+    --jf-shadow-sm: 0 2px 4px rgba(8, 3, 26, 0.55);
+    --jf-shadow-md: 0 4px 16px rgba(8, 3, 26, 0.66);
+    --jf-shadow-lg: 0 14px 48px rgba(8, 3, 26, 0.76);
+
+    --jf-scrollbar: rgba(255, 47, 168, 0.15);
+    --jf-scrollbar-hover: rgba(255, 47, 168, 0.3);
+
+    --jf-button-border-focus: #ffffff;
+
+    /* Action Buttons */
+    --jf-action-btn-bg: rgba(138, 63, 252, 0.09);
+    --jf-action-btn-border: rgba(138, 63, 252, 0.19);
+    --jf-action-btn-color: var(--jf-text-primary);
+    --jf-action-btn-active-bg: var(--jf-accent);
+    --jf-action-btn-active-border: var(--jf-accent-content-color, #120a2e);
+    --jf-action-btn-active-color: var(--jf-accent-content-color);
+
+    /* Primary Buttons (Play/Resume) */
+    --jf-primary-btn-bg: var(--jf-accent);
+    --jf-primary-btn-color: var(--jf-accent-content-color);
+}
+
+/*
+ * ============================================================================
+ * BASE CANVAS FOUNDATION
+ * ============================================================================
+ * Baseline painted on the root node; scopes out of the player so
+ * hardware video overlays stay fully transparent during playback.
+ */
+html[data-theme-mode="mikeytv"]:not(.player-active) {
+    background-color: var(--jf-background) !important;
+}
+
+[data-theme-mode="mikeytv"] body {
+    /* body must stay transparent so the background shows through */
+    background-color: transparent !important;
+    background-image: none !important;
+    background-attachment: scroll !important;
+}
+
+/*
+ * Logo-coloured background. Unloaded during playback, below.
+ */
+[data-theme-mode="mikeytv"] body::before,
+html[data-theme-mode="mikeytv"] body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+
+    background-color: var(--jf-background) !important;
+    background-image:
+        radial-gradient(42% 46% at 88% 18%,
+                rgba(255, 47, 168, 0.20) 0%,
+                rgba(255, 47, 168, 0.06) 44%,
+                transparent 72%),
+        radial-gradient(38% 42% at 10% 86%,
+                rgba(25, 211, 255, 0.16) 0%,
+                rgba(25, 211, 255, 0.05) 46%,
+                transparent 72%),
+        radial-gradient(46% 50% at 52% 58%,
+                rgba(138, 63, 252, 0.12) 0%,
+                transparent 74%),
+        linear-gradient(to bottom,
+                #1a0f42 0%,
+                #120a2e 55%,
+                #0b0620 100%);
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+[data-theme-mode="mikeytv"] .page {
+    /* Reset the opaque page paint so the background shows through */
+    background: transparent !important;
+    background-image: none !important;
+}
+
+/*
+ * ============================================================================
+ * VIDEO PLAYBACK OPTIMIZATION
+ * ============================================================================
+ * Unloads the background layer during active video playback to guarantee
+ * zero GPU overhead for the hardware video pipeline.
+ */
+html.player-active[data-theme-mode="mikeytv"],
+[data-theme-mode="mikeytv"] body.player-active,
+html.player-active[data-theme-mode="mikeytv"] body {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+}
+
+[data-theme-mode="mikeytv"] body.player-active::before,
+html.player-active[data-theme-mode="mikeytv"] body::before {
+    display: none !important;
+}
+
+[data-theme-mode="mikeytv"] body.player-active .page,
+html.player-active[data-theme-mode="mikeytv"] .page {
+    background: transparent !important;
+    background-image: none !important;
+}
+
+/* Text selection */
+[data-theme-mode="mikeytv"] ::selection {
+    background: #ff2fa8;
+    color: #ffffff;
+}

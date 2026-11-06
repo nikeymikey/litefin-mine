@@ -59,7 +59,7 @@ const version = versionMatch ? versionMatch[1] : '0.0.0';
 // Read appId from appinfo.json so we can predict the IPK filename that
 // ares-package generates and rename it to match our naming convention.
 const appinfoContent = JSON.parse(readFileSync('./appinfo.json', 'utf8'));
-const appId = appinfoContent.id; // e.g. org.litefin.app
+const appId = appinfoContent.id; // e.g. tv.mikeytv.app
 
 console.log(`Package Version: ${version}`);
 
@@ -452,7 +452,7 @@ async function packageDebug() {
 async function packageWebos() {
     // Default normal build shipped as WebOS IPK
     const buildDir = 'dist/normal';
-    const ipkName = `Litefin-${version}-webOS-Normal.ipk`;
+    const ipkName = `MikeyTV-${version}-webOS-Normal.ipk`;
 
     console.info(`Creating ${ipkName}...`);
     await createIpk(buildDir, '.', ipkName);
@@ -461,7 +461,7 @@ async function packageWebos() {
 async function packageWebosModern() {
     // Generate the modern target package for WebOS 6.0+ devices
     const buildDir = 'dist/modern';
-    const ipkName = `Litefin-${version}-webOS-Modern.ipk`;
+    const ipkName = `MikeyTV-${version}-webOS-Modern.ipk`;
 
     console.info(`Creating ${ipkName}...`);
     await createIpk(buildDir, '.', ipkName);
@@ -469,7 +469,7 @@ async function packageWebosModern() {
 
 async function packageWebosLegacy() {
     const buildDir = 'dist/legacy';
-    const ipkName = `Litefin-${version}-webOS-Legacy.ipk`;
+    const ipkName = `MikeyTV-${version}-webOS-Legacy.ipk`;
 
     console.info(`Creating ${ipkName}...`);
     await createIpk(buildDir, '.', ipkName);
@@ -477,7 +477,7 @@ async function packageWebosLegacy() {
 
 async function packageWebosUltraLegacy() {
     const buildDir = 'dist/ultra-legacy';
-    const ipkName = `Litefin-${version}-webOS-Ultra-Legacy.ipk`;
+    const ipkName = `MikeyTV-${version}-webOS-Ultra-Legacy.ipk`;
 
     console.info(`Creating ${ipkName}...`);
     await createIpk(buildDir, '.', ipkName, /* includeServices */ true);
@@ -485,7 +485,7 @@ async function packageWebosUltraLegacy() {
 
 async function packageWebosUltraLegacyNoService() {
     const buildDir = 'dist/ultra-legacy';
-    const ipkName = `Litefin-${version}-webOS-Ultra-Legacy-NoService.ipk`;
+    const ipkName = `MikeyTV-${version}-webOS-Ultra-Legacy-NoService.ipk`;
 
     console.info(`Creating ${ipkName}...`);
     await createIpk(buildDir, '.', ipkName, /* includeServices */ false);

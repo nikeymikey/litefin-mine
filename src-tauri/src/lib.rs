@@ -68,7 +68,7 @@ pub fn run() {
         builder = builder.plugin(
             tauri::plugin::Builder::<tauri::Wry, ()>::new("exoplayer")
                 .setup(|_app, api| {
-                    let _ = api.register_android_plugin("org.litefin.app", "ExoPlayerPlugin");
+                    let _ = api.register_android_plugin("tv.mikeytv.app", "ExoPlayerPlugin");
                     Ok(())
                 })
                 .build(),

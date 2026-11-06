@@ -7,6 +7,7 @@
  * ============================================================================
  */
 
+import { MESSAGE_ICON, syncMessageIndicators } from '../core/MessageCenter.js';
 import Component from '../core/Component.js';
 import { api, auth } from '../api/index.js';
 import { router } from '../core/Router.js';
@@ -61,10 +62,10 @@ class Sidebar extends Component {
                 <!-- Kept as the first flex child so the brand logo always stays anchored to the top. -->
                 <div class="sidebar-header" id="sidebar-logo-header">
                     <div class="logo-icon">
-                        <img src="assets/icon-130.png" class="sidebar-logo-img" alt="Litefin Logo" />
+                        <img src="assets/icon-130.png" class="sidebar-logo-img" alt="MikeyTV Logo" />
                         ${sidebarIcons.logo}
                     </div>
-                    <span class="logo-text">Litefin</span>
+                    <span class="logo-text">MikeyTV</span>
                 </div>
 
                 <!-- Native Back Navigation Control (Web & Desktop) -->
@@ -115,6 +116,13 @@ class Sidebar extends Component {
                             ${sidebarIcons.random}
                         </div>
                         <span class="item-text" data-i18n="Random">Random</span>
+                    </button>
+
+                    <button class="sidebar-item hidden" id="sidebar-messages" data-message-indicator tabindex="-1" style="display: none;">
+                        <div class="item-icon">
+                            <span class="message-indicator-wrap">${MESSAGE_ICON}<span class="message-indicator-dot"></span></span>
+                        </div>
+                        <span class="item-text" data-i18n="Messages">Messages</span>
                     </button>
 
                     <!-- SyncPlay Section -->
@@ -198,6 +206,7 @@ class Sidebar extends Component {
 
         // Sidebar Logo clickability configuration
         this._updateLogoSettings();
+        syncMessageIndicators();
         this._onLogoSettingsChanged = () => this._updateLogoSettings();
         eventBus.on('pref:logoSettings', this._onLogoSettingsChanged);
         eventBus.on('pref:keepSidebarNavButton', this._onLogoSettingsChanged);
@@ -857,6 +866,8 @@ class Sidebar extends Component {
                 } else if (item.id === 'sidebar-syncplay') {
                     // Open the SyncPlay group menu overlay (works from any screen)
                     syncPlayGroupMenu.open();
+                } else if (item.id === 'sidebar-messages') {
+                    eventBus.emit('messages:open');
                 } else if (item.id === 'sidebar-random') {
                     this._onRandomClick();
                 } else if (item.id === 'sidebar-logout') {

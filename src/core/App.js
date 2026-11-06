@@ -15,6 +15,8 @@ import { api } from '../api/ApiClient.js';
 import { fireHomeRowPrefetch } from '../utils/HomeRowPrefetch.js';
 import { auth } from '../api/index.js';
 import { webSocketHandler } from '../api/WebSocketHandler.js';
+import { messageCenter } from './MessageCenter.js';
+import { messagePanel } from '../ui/MessagePanel.js';
 import { tizenAdapter } from '../tizen/TizenAdapter.js';
 import { webosAdapter } from '../webos/WebOSAdapter.js';
 // NOTE: AndroidAdapter is NOT statically imported in the boot graph - it is
@@ -339,7 +341,7 @@ class DetailsPage extends Page {
 
         if (this._realInstance.title) {
             this.title = this._realInstance.title;
-            document.title = `${this.title} - Litefin`;
+            document.title = `${this.title} - MikeyTV`;
         }
         return res;
     }
@@ -462,7 +464,7 @@ class LibraryPage extends Page {
 
         if (this._realInstance.title) {
             this.title = this._realInstance.title;
-            document.title = `${this.title} - Litefin`;
+            document.title = `${this.title} - MikeyTV`;
         }
         return res;
     }
@@ -766,7 +768,7 @@ class AsyncPageProxy extends Page {
 
         if (this._realInstance && this._realInstance.title) {
             this.title = this._realInstance.title;
-            document.title = `${this.title} - Litefin`;
+            document.title = `${this.title} - MikeyTV`;
         }
         return res;
     }
@@ -1574,6 +1576,11 @@ class App {
 
         // Handle back button / return key
         eventBus.on('key:back', () => {
+            // Message panel first: it sits above the player and every page.
+            if (messagePanel.handleBack()) {
+                return;
+            }
+
             // 1. Check for standalone global overlays
             if (syncPlayGroupMenu && syncPlayGroupMenu.isVisible) {
                 syncPlayGroupMenu.close();
@@ -2098,6 +2105,8 @@ class App {
         // ================================================================
         // Initialize handler for remote commands from Jellyfin dashboard
         webSocketHandler.init();
+        messageCenter.init();
+        messagePanel.init();
         log.debug('WebSocketHandler initialized for remote control');
 
         // Handle remote:playnow - start playback of item from server

@@ -28,6 +28,7 @@ const log = logger.create('ThemeColorModal');
 export function getThemeColors() {
     return [
         // Row 1: Primary Swatches
+        { name: 'MikeyTV Pink', hex: '#ff2fa8' },
         { name: 'Litefin Purple Blue', hex: '#6b6ede' },
         { name: 'Jellyfin Blue', hex: '#00a4dc' },
         { name: 'Litefin Blue', hex: '#007aff' },

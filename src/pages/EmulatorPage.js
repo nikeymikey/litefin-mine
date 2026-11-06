@@ -78,7 +78,7 @@ class EmulatorPage extends Page {
                                 id="btn-emulator-exit"
                                 tabindex="0"
                             >
-                                <span>${i18n.t('ExitGame') || 'Exit to Litefin'}</span>
+                                <span>${i18n.t('ExitGame') || 'Exit to MikeyTV'}</span>
                             </button>
                         </div>
                     </div>

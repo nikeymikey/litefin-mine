@@ -232,8 +232,8 @@ export class ApiClient {
 
         // Device identification - NO SPACES in any of these values
         this._deviceId = null;
-        this._deviceName = 'Litefin'; // Default, will be updated by AuthManager.init()
-        this._clientName = 'Litefin';
+        this._deviceName = 'MikeyTV'; // Default, will be updated by AuthManager.init()
+        this._clientName = 'MikeyTV';
         this._clientVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '1.0.0';
 
         // Track retries to prevent infinite loops on 401
@@ -3750,7 +3750,7 @@ async function _discoverViaLunaService(onServerFound) {
 
         let request;
         try {
-            request = window.webOS.service.request('luna://org.litefin.app.service', {
+            request = window.webOS.service.request('luna://tv.mikeytv.app.service', {
                 method: 'discover',
                 parameters: { subscribe: true },
 
@@ -3848,12 +3848,12 @@ export async function sendWakeOnLan(macAddress) {
         typeof window.webOS !== 'undefined' &&
         window.webOS.service
     ) {
-        log.info('Platform WebOS: Dispatching WOL request to Luna service org.litefin.app.service');
+        log.info('Platform WebOS: Dispatching WOL request to Luna service tv.mikeytv.app.service');
 
         const sendLunaRequest = () =>
             new Promise((resolve) => {
                 try {
-                    window.webOS.service.request('luna://org.litefin.app.service', {
+                    window.webOS.service.request('luna://tv.mikeytv.app.service', {
                         method: 'wol',
                         parameters: { mac: macAddress },
                         onSuccess(response) {
@@ -3874,7 +3874,7 @@ export async function sendWakeOnLan(macAddress) {
         // First attempt to invoke Luna method
         let res = await sendLunaRequest();
 
-        // If service is cold-booting, WebOS returns "org.litefin.app.service is not running" while starting it.
+        // If service is cold-booting, WebOS returns "tv.mikeytv.app.service is not running" while starting it.
         // Wait 600ms for the OS to initialize the Node.js background process and retry.
         if (!res.success && res.err) {
             const errStr = typeof res.err === 'string' ? res.err : res.err.errorText || JSON.stringify(res.err);
@@ -4064,7 +4064,7 @@ export async function discoverServers(onProgress = null, onServerFound = null, o
      * WebOS Fast Path: Native UDP Discovery via Luna Service
      * =========================================================================
      * WebOS background services run in Node.js and have access to raw UDP
-     * sockets. Our `org.litefin.app.service/discover` service broadcasts the
+     * sockets. Our `tv.mikeytv.app.service/discover` service broadcasts the
      * Jellyfin autodiscovery probe on UDP port 7359 and pushes results
      * instantly via the Luna bus.
      *

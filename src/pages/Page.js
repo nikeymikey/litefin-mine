@@ -103,7 +103,7 @@ class Page extends Component {
 
         // Set document title
         if (this.title) {
-            document.title = `${this.title} - Litefin`;
+            document.title = `${this.title} - MikeyTV`;
         }
 
         // PHASE 1: Restore page-specific state BEFORE onInit

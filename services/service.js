@@ -28,8 +28,8 @@ if (isWebOS) {
      *   2. Jellyfin servers respond with JSON: { Id, Name, Address, EndpointAddress }
      *   3. Results are pushed to all subscribed web-page callers via Luna bus
      *
-     * Luna service ID: org.litefin.app.service
-     * Registered method: luna://org.litefin.app.service/discover
+     * Luna service ID: tv.mikeytv.app.service
+     * Registered method: luna://tv.mikeytv.app.service/discover
      * ============================================================================
      */
     
@@ -187,7 +187,7 @@ if (isWebOS) {
     // ============================================================================
     
     /*
-     * `luna://org.litefin.app.service/discover`
+     * `luna://tv.mikeytv.app.service/discover`
      *
      * Call with `{ subscribe: true }` to receive ongoing push updates.
      * Call without subscribe for a one-shot snapshot of already-seen servers.
@@ -226,7 +226,7 @@ if (isWebOS) {
     });
 
     /*
-     * `luna://org.litefin.app.service/wol`
+     * `luna://tv.mikeytv.app.service/wol`
      *
      * Call with `{ mac: "00:11:22:33:44:55" }` to send a magic packet.
      */

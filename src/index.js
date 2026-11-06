@@ -76,7 +76,7 @@ async function bootstrap() {
                 window.webOS.service
             ) {
                 // Wake up webOS background service via Luna bus strictly when running on LG webOS hardware
-                window.webOS.service.request('luna://org.litefin.app.service', {
+                window.webOS.service.request('luna://tv.mikeytv.app.service', {
                     method: 'discover',
                     parameters: { subscribe: false },
                     onSuccess: function () {},

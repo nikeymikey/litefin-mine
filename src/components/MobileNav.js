@@ -114,9 +114,9 @@ export class MobileNav extends Component {
 
                         <div class="mobile-topbar-logo-wrap" id="mobile-topbar-logo" role="button" tabindex="0">
                             <div class="mobile-topbar-logo-icon">
-                                <img src="assets/icon-130.png" class="mobile-topbar-logo-img" alt="Litefin" />
+                                <img src="assets/icon-130.png" class="mobile-topbar-logo-img" alt="MikeyTV" />
                             </div>
-                            <span class="mobile-topbar-brand">Litefin</span>
+                            <span class="mobile-topbar-brand">MikeyTV</span>
                         </div>
                     </div>
 

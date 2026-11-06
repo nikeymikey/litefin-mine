@@ -1960,7 +1960,7 @@ class PlayerPage extends Page {
         const mediaSessionMetadata = {
             title: item.Name,
             artist: item.ProductionYear ? item.ProductionYear.toString() : '',
-            album: item.SeriesName || 'Litefin',
+            album: item.SeriesName || 'MikeyTV',
             artworkUrl: api.getImageUrl(item.Id, 'Primary', { maxWidth: 400 })
         };
         const mediaSessionCallbacks = {

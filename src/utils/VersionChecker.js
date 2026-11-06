@@ -15,7 +15,7 @@ const log = logger.create('VersionChecker');
 
 class VersionChecker {
     constructor() {
-        this.apiEndpoint = 'https://api.github.com/repos/MoazSalem/litefin/releases/latest';
+        this.apiEndpoint = 'https://api.github.com/repos/nikeymikey/MikeyTV/releases/latest';
     }
 
     /**
@@ -79,7 +79,7 @@ class VersionChecker {
                     icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="var(--jf-btn-primary-bg, #00a4dc)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>`
                 });
             } else if (manual) {
-                toast.show(i18n.t('AppIsUpToDate') || 'Litefin is up to date.', 3000, {
+                toast.show(i18n.t('AppIsUpToDate') || 'MikeyTV is up to date.', 3000, {
                     icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`
                 });
             }

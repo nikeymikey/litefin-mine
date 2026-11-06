@@ -1,0 +1,132 @@
+# Builds everything MikeyTV needs. Open the run's Artifacts to download, or push
+# a v* tag to also attach the files to a GitHub release.
+#
+# Android signing: add these repository secrets to keep the same key across
+# builds, which Android needs for updates to install over an earlier version:
+#   ANDROID_KEYSTORE_BASE64, ANDROID_STORE_PASSWORD, ANDROID_KEY_PASSWORD, ANDROID_KEY_ALIAS
+# Without them the APK gets a throwaway key: it installs, but the next build
+# must be installed after uninstalling the previous one.
+
+name: MikeyTV Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [mikeytv]
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  webos:
+    name: webOS packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      # Each packaging run deletes earlier .ipk files, so move them out first.
+      - run: |
+          mkdir -p packages
+          npm run package:webos-modern
+          mv MikeyTV-*-webOS-*.ipk packages/
+          npm run package:webos-legacy
+          mv MikeyTV-*-webOS-*.ipk packages/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mikeytv-webos
+          path: packages/*.ipk
+      - uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: packages/*.ipk
+
+  android:
+    name: Android universal APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Set up Android SDK and NDK
+        run: |
+          echo "ANDROID_SDK_ROOT=$ANDROID_HOME" >> "$GITHUB_ENV"
+          NDK=""
+          if [ -d "$ANDROID_HOME/ndk" ]; then
+            NDK=$(find "$ANDROID_HOME/ndk" -maxdepth 1 -mindepth 1 | sort -V | tail -n 1)
+          fi
+          if [ -z "$NDK" ]; then
+            yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install "ndk;26.3.11579264"
+            NDK="$ANDROID_HOME/ndk/26.3.11579264"
+          fi
+          echo "NDK_HOME=$NDK" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_HOME=$NDK" >> "$GITHUB_ENV"
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android,armv7-linux-androideabi,i686-linux-android,x86_64-linux-android
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+      - run: npm ci
+      - name: Configure signing
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          cd src-tauri/gen/android
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 -d > release.jks
+          else
+            echo "::warning::No signing secrets set. Using a throwaway key, so this APK cannot update an earlier install."
+            STORE_PASSWORD=$(openssl rand -hex 16); KEY_PASSWORD=$STORE_PASSWORD; KEY_ALIAS=mikeytv
+            keytool -genkeypair -keystore release.jks -storepass "$STORE_PASSWORD" -keypass "$KEY_PASSWORD" \
+              -alias "$KEY_ALIAS" -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=MikeyTV"
+          fi
+          {
+            echo "storeFile=release.jks"
+            echo "storePassword=$STORE_PASSWORD"
+            echo "keyPassword=$KEY_PASSWORD"
+            echo "keyAlias=$KEY_ALIAS"
+          } > keystore.properties
+      - run: npm run package:android-universal
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mikeytv-android
+          path: MikeyTV-*-Android-*.apk
+      - uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: MikeyTV-*-Android-*.apk
+
+  plugin:
+    name: Jellyfin messaging plugin
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Build
+        working-directory: server-plugin-messaging
+        run: |
+          dotnet publish MikeyTV.Messaging.csproj -c Release -o out
+          mkdir -p package
+          cp out/MikeyTV.Messaging.dll meta.json LICENSE package/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mikeytv-messaging-plugin
+          path: server-plugin-messaging/package/

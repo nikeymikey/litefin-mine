@@ -1,4 +1,4 @@
-package org.litefin.app
+package tv.mikeytv.app
 
 import android.content.Context
 import android.content.Intent

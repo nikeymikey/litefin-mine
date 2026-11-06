@@ -470,7 +470,7 @@ class WebOSAdapter {
                 navigator.mediaSession.metadata = new window.MediaMetadata({
                     title: metadata.title || '',
                     artist: metadata.artist || '',
-                    album: metadata.album || 'Litefin',
+                    album: metadata.album || 'MikeyTV',
                     artwork: metadata.artworkUrl ? [{ src: metadata.artworkUrl }] : []
                 });
             }
@@ -513,7 +513,7 @@ class WebOSAdapter {
      * @private
      */
     static get SCREENSAVER_CLIENT() {
-        return 'org.litefin.app';
+        return 'tv.mikeytv.app';
     }
 
     /**
@@ -716,7 +716,7 @@ class WebOSAdapter {
         try {
             const params = {
                 activity: {
-                    name: 'org.litefin.app-playback-keepalive',
+                    name: 'tv.mikeytv.app-playback-keepalive',
                     description: 'Keep screen awake during active video playback',
                     type: {
                         foreground: true,

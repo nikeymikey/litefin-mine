@@ -71,3 +71,9 @@ knowledge.md
 *.zip
 
 litefin-plugin-manifest.json
+
+# MikeyTV messaging plugin build output
+server-plugin-messaging/bin/
+server-plugin-messaging/obj/
+server-plugin-messaging/out/
+server-plugin-messaging/package/

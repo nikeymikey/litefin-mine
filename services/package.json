@@ -1,5 +1,5 @@
 {
-    "name": "org.litefin.app.service",
+    "name": "tv.mikeytv.app.service",
     "version": "1.0.0",
     "description": "Litefin Jellyfin Discovery Background Service",
     "main": "service.js",

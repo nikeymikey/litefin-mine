@@ -8,11 +8,11 @@
  */
 
 import { eventBus } from '../core/EventBus.js';
-import { toast } from '../ui/Toast.js';
 import { logger } from '../utils/Logger.js';
 import { focusManager } from '../ui/FocusManager.js';
 import { router } from '../core/Router.js';
 import { api } from './ApiClient.js';
+import { messageCenter } from '../core/MessageCenter.js';
 
 const log = logger.create('WebSocketHandler');
 
@@ -349,17 +349,7 @@ class WebSocketHandler {
      * @private
      */
     _displayMessage(args) {
-        if (!args) return;
-
-        const header = args.Header || '';
-        const text = args.Text || '';
-        const timeout = args.TimeoutMs || 5000; // Default 5 seconds
-
-        // Combine header and text for display
-        const message = header ? `${header}: ${text}` : text;
-
-        // Show as auto-dismiss toast
-        toast.show(message, timeout);
+        messageCenter.receive(args);
     }
 
     // ========================================================================

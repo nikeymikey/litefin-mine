@@ -32,8 +32,8 @@ test('WebOSAdapter: Source code integrity for screensaver suppression and user p
 
     // 1. Verify SCREENSAVER_CLIENT identifier
     assert.ok(
-        adapterSource.includes("org.litefin.app"),
-        'WebOSAdapter must use org.litefin.app as the screensaver client name'
+        adapterSource.includes("tv.mikeytv.app"),
+        'WebOSAdapter must use tv.mikeytv.app as the screensaver client name'
     );
 
     // 2. Verify registration with tvpower service
@@ -53,7 +53,7 @@ test('WebOSAdapter: Source code integrity for screensaver suppression and user p
     // 4. Verify activitymanager keepalive integration
     assert.ok(
         adapterSource.includes('luna://com.palm.activitymanager') &&
-        adapterSource.includes("name: 'org.litefin.app-playback-keepalive'"),
+        adapterSource.includes("name: 'tv.mikeytv.app-playback-keepalive'"),
         'WebOSAdapter must register a keepalive activity with com.palm.activitymanager'
     );
 
@@ -190,7 +190,7 @@ test('WebOSAdapter: Behavioral simulation of screensaver guard and ack logic wit
         if (shouldBlock) {
             mockWebOS.service.request('luna://com.webos.service.tvpower', {
                 method: 'power/registerScreenSaverRequest',
-                parameters: { clientName: 'org.litefin.app', subscribe: true },
+                parameters: { clientName: 'tv.mikeytv.app', subscribe: true },
                 onSuccess: (res) => {
                     if (res && res.timestamp) {
                         respondScreenSaver(res.timestamp);
@@ -201,7 +201,7 @@ test('WebOSAdapter: Behavioral simulation of screensaver guard and ack logic wit
                 method: 'create',
                 parameters: {
                     activity: {
-                        name: 'org.litefin.app-playback-keepalive',
+                        name: 'tv.mikeytv.app-playback-keepalive',
                         type: { foreground: true, continuous: true, power: true, powerDebounce: true }
                     }
                 }
@@ -225,7 +225,7 @@ test('WebOSAdapter: Behavioral simulation of screensaver guard and ack logic wit
         const ack = !screensaverBlocked;
         mockWebOS.service.request('luna://com.webos.service.tvpower', {
             method: 'power/responseScreenSaverRequest',
-            parameters: { clientName: 'org.litefin.app', ack, timestamp }
+            parameters: { clientName: 'tv.mikeytv.app', ack, timestamp }
         });
     };
 
@@ -238,7 +238,7 @@ test('WebOSAdapter: Behavioral simulation of screensaver guard and ack logic wit
     respondScreenSaver(1729240000);
     assert.equal(sentResponses.length, 1);
     assert.deepEqual(sentResponses[0], {
-        clientName: 'org.litefin.app',
+        clientName: 'tv.mikeytv.app',
         ack: true, // Must allow screensaver when disabled by default
         timestamp: 1729240000
     }, 'Must reply with ack: true by default to maintain old behavior');
@@ -253,7 +253,7 @@ test('WebOSAdapter: Behavioral simulation of screensaver guard and ack logic wit
     registeredCallback({ returnValue: true, timestamp: 1729240900 });
     assert.equal(sentResponses.length, 2);
     assert.deepEqual(sentResponses[1], {
-        clientName: 'org.litefin.app',
+        clientName: 'tv.mikeytv.app',
         ack: false, // CRITICAL: must deny screensaver
         timestamp: 1729240900
     }, 'Must reply with ack: false during playback when user enabled option');

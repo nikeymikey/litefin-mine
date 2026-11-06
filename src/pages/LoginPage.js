@@ -118,7 +118,7 @@ class LoginPage extends Page {
                     <div class="login-header">
                         <div class="login-logo-container">
                             ${logoSvg}
-                            <h1 class="login-logo">Litefin</h1>
+                            <h1 class="login-logo">MikeyTV</h1>
                         </div>
                         <p class="login-tagline" data-i18n="LitefinTagline">${i18n.t('LitefinTagline')}</p>
                     </div>
@@ -302,7 +302,7 @@ class LoginPage extends Page {
                     <div class="login-header">
                         <div class="login-logo-container">
                             ${logoSvg}
-                            <h1 class="login-logo">Litefin</h1>
+                            <h1 class="login-logo">MikeyTV</h1>
                         </div>
                         <p class="login-tagline" data-i18n="LitefinTagline">${i18n.t('LitefinTagline')}</p>
                     </div>
@@ -496,7 +496,7 @@ class LoginPage extends Page {
      * Uses icon-130.png for the Litefin brand logo icon.
      */
     _logoSvg() {
-        return `<img src="assets/icon-130.png" class="login-logo-img" alt="Litefin Logo" />`;
+        return `<img src="assets/icon-130.png" class="login-logo-img" alt="MikeyTV Logo" />`;
     }
 
     onMounted() {

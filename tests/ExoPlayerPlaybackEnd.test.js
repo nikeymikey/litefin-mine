@@ -104,7 +104,7 @@ test('ExoVideoPlayer: Static source verification for ended event dispatch and pa
 test('ExoPlayerPlugin.kt: Native Android listener sends state with isPlaying and ended state', () => {
     // Read ExoPlayerPlugin.kt Kotlin source
     const ktSource = readFileSync(
-        new URL('../src-tauri/gen/android/app/src/main/java/org/litefin/app/ExoPlayerPlugin.kt', import.meta.url),
+        new URL('../src-tauri/gen/android/app/src/main/java/tv/mikeytv/app/ExoPlayerPlugin.kt', import.meta.url),
         'utf8'
     );
 

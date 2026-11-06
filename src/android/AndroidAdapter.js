@@ -709,7 +709,7 @@ class AndroidAdapter {
                 navigator.mediaSession.metadata = new window.MediaMetadata({
                     title: metadata.title || '',
                     artist: metadata.artist || '',
-                    album: metadata.album || 'Litefin',
+                    album: metadata.album || 'MikeyTV',
                     artwork: metadata.artworkUrl ? [{ src: metadata.artworkUrl }] : []
                 });
             }
